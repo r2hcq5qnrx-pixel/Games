@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"
+  >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Megan's Birthday Pet Party - Mobile</title>
+  <style>
+    :root{
+      --bg1:#fff1f7;
+      --bg2:#f5f3ff;
+      --panel:#ffffffee;
+      --text:#5b4268;
+      --accent:#ff6fb5;
+      --accent2:#8b7bff;
+      --button:#ffffff;
+      --buttonBorder:#e8d6ef;
+      --danger:#ff5f7d;
+      --shadow:0 8px 22px rgba(133, 93, 144, 0.16);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background:
+        radial-gradient(circle at top, #ffffff 0%, var(--bg1) 35%, var(--bg2) 100%);
+      touch-action: manipulation;
+    }
+
+    body{
+      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:520px;
+      min-height:100dvh;
+      padding:
+        calc(8px + var(--safe-top))
+        8px
+        calc(10px + var(--safe-bottom));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      overflow:hidden;
+      touch-action:none;
+    }
+
+    h1{
+      margin:0;
+      font-size:1.15rem;
+      text-align:center;
+      color:#d6539d;
+      line-height:1.15;
+    }
+
+    .subtitle{
+      text-align:center;
+      font-size:0.78rem;
+      opacity:0.92;
+      line-height:1.2;
+      margin-top:-2px;
+    }
+
+    .topbar{
+      width:100%;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:6px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid #f1dff0;
+      border-radius:12px;
+      padding:7px 6px;
+      text-align:center;
+      box-shadow:var(--shadow);
+      min-width:0;
+    }
+
+    .label{
+      display:block;
+      font-size:0.54rem;
+      text-transform:uppercase;
+      letter-spacing:0.06em;
+      opacity:0.8;
+      margin-bottom:3px;
+      line-height:1.05;
+    }
+
+    .value{
+      font-size:0.84rem;
+      font-weight:800;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .danger{
+      color:var(--danger);
+    }
+
+    .difficulty-panel{
+      width:100%;
+      background:var(--panel);
+      border:1px solid #f1dff0;
+      border-radius:14px;
+      padding:9px 10px;
+      box-shadow:var(--shadow);
+    }
+
+    .difficulty-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:8px;
+      font-size:0.82rem;
+      font-weight:700;
+      flex-wrap:wrap;
+    }
+
+    .difficulty-note{
+      font-size:0.72rem;
+      opacity:0.82;
+      line-height:1.2;
+      margin-top:4px;
+    }
+
+    input[type="range"]{
+      width:100%;
+      accent-color:#ff6fb5;
+    }
+
+    #gameBox{
+      position:relative;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex:0 0 auto;
+      touch-action:none;
+    }
+
+    canvas{
+      display:block;
+      width:min(92vw, 420px);
+      height:min(92vw, 420px);
+      max-width:420px;
+      max-height:420px;
+      border-radius:18px;
+      background:#fff;
+      border:2px solid #f2d7eb;
+      box-shadow:0 12px 24px rgba(145, 105, 158, 0.20);
+      touch-action:none;
+      user-select:none;
+    }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      pointer-events:none;
+    }
+
+    .message{
+      max-width:300px;
+      background:#fffffff2;
+      border:1px solid #f0dcec;
+      border-radius:16px;
+      padding:12px 14px;
+      text-align:center;
+      box-shadow:var(--shadow);
+    }
+
+    .message h2{
+      margin:0 0 6px;
+      color:#d6539d;
+      font-size:1rem;
+    }
+
+    .message p{
+      margin:0;
+      line-height:1.32;
+      font-size:0.84rem;
+    }
+
+    .actions{
+      width:100%;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:6px;
+    }
+
+    .action-btn{
+      border:1px solid var(--buttonBorder);
+      border-radius:999px;
+      background:var(--button);
+      color:var(--text);
+      padding:10px 10px;
+      min-height:44px;
+      font-size:0.83rem;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      touch-action:manipulation;
+    }
+
+    .controls{
+      width:100%;
+      display:grid;
+      grid-template-columns:repeat(3, 64px);
+      grid-template-rows:repeat(2, 54px);
+      justify-content:center;
+      gap:7px;
+      touch-action:none;
+    }
+
+    .btn{
+      border:1px solid var(--buttonBorder);
+      border-radius:14px;
+      background:linear-gradient(180deg, #fff, #fff7fd);
+      color:var(--text);
+      font-size:1.2rem;
+      font-weight:800;
+      min-width:44px;
+      min-height:44px;
+      box-shadow:var(--shadow);
+      touch-action:manipulation;
+    }
+
+    .btn:active,
+    .action-btn:active{
+      transform:scale(0.97);
+    }
+
+    .up{ grid-column:2; grid-row:1; }
+    .left{ grid-column:1; grid-row:2; }
+    .down{ grid-column:2; grid-row:2; }
+    .right{ grid-column:3; grid-row:2; }
+
+    .footer{
+      text-align:center;
+      font-size:0.74rem;
+      opacity:0.85;
+      line-height:1.2;
+      max-width:420px;
+    }
+
+    @media (max-width: 360px) {
+      h1{ font-size:1.02rem; }
+      .subtitle{ font-size:0.72rem; }
+      .topbar{ grid-template-columns: repeat(2, 1fr); }
+      .actions{ grid-template-columns: 1fr; }
+      .controls{
+        grid-template-columns:repeat(3, 58px);
+        grid-template-rows:repeat(2, 50px);
+      }
+      canvas{
+        width:min(90vw, 340px);
+        height:min(90vw, 340px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <h1>Megan's Birthday Pet Party</h1>
+    <div class="subtitle">Mobile version with smoother iPhone play 🎂</div>
+
+    <div class="topbar">
+      <div class="panel">
+        <span class="label">Room</span>
+        <span class="value" id="roomName">Teddy Room</span>
+      </div>
+      <div class="panel">
+        <span class="label">Score</span>
+        <span class="value" id="score">0</span>
+      </div>
+      <div class="panel">
+        <span class="label">Collected</span>
+        <span class="value" id="collected">0 / 6</span>
+      </div>
+      <div class="panel">
+        <span class="label">Hearts</span>
+        <span class="value" id="hearts">❤❤❤</span>
+      </div>
+      <div class="panel">
+        <span class="label">Time</span>
+        <span class="value" id="timer">30</span>
+      </div>
+      <div class="panel">
+        <span class="label">Pace</span>
+        <span class="value" id="pace">1.0x</span>
+      </div>
+    </div>
+
+    <div class="difficulty-panel">
+      <div class="difficulty-top">
+        <span>Monster Difficulty</span>
+        <span id="difficultyText">3 / 5 - Medium</span>
+      </div>
+      <input id="difficultySlider" type="range" min="1" max="5" step="1" value="3">
+      <div class="difficulty-note">
+        Lower = kinder monster. Higher = quicker and sneakier.
+      </div>
+    </div>
+
+    <div id="gameBox">
+      <canvas id="game" width="420" height="420"></canvas>
+      <div class="overlay" id="overlay">
+        <div class="message" id="messageBox">
+          <h2>Happy 10th Birthday Megan!</h2>
+          <p>Collect everything before time runs out. Each pickup makes the chase and music faster.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" id="startBtn">Start</button>
+      <button class="action-btn" id="pauseBtn">Pause</button>
+      <button class="action-btn" id="musicBtn">Music: On</button>
+    </div>
+
+    <div class="controls">
+      <button class="btn up" data-dir="up">▲</button>
+      <button class="btn left" data-dir="left">◀</button>
+      <button class="btn down" data-dir="down">▼</button>
+      <button class="btn right" data-dir="right">▶</button>
+    </div>
+
+    <div class="footer">
+      Best in Safari on iPhone. Double-tap zoom and page bounce are blocked while playing.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
+    document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
+    document.addEventListener('gestureend', e => e.preventDefault(), { passive: false });
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (e) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function (e) {
+      if (e.scale !== undefined && e.scale !== 1) e.preventDefault();
+    }, { passive: false });
+
+    const app = document.getElementById("app");
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+    const overlay = document.getElementById("overlay");
+    const messageBox = document.getElementById("messageBox");
+    const roomNameEl = document.getElementById("roomName");
+    const scoreEl = document.getElementById("score");
+    const collectedEl = document.getElementById("collected");
+    const heartsEl = document.getElementById("hearts");
+    const timerEl = document.getElementById("timer");
+    const paceEl = document.getElementById("pace");
+    const startBtn = document.getElementById("startBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const musicBtn = document.getElementById("musicBtn");
+    const difficultySlider = document.getElementById("difficultySlider");
+    const difficultyText = document.getElementById("difficultyText");
+
+    let tile = 42;
+    const cols = 10;
+    const rows = 10;
+    let W = 420;
+    let H = 420;
+
+    let gameStarted = false;
+    let paused = false;
+    let gameWon = false;
+    let currentRoom = 0;
+    let score = 0;
+    let collected = 0;
+    let hearts = 3;
+    let roomTimeLeft = 30;
+    let roomTimeMax = 30;
+    let lastTimestamp = 0;
+
+    let pulse = 0;
+    let dangerFlash = 0;
+
+    let player = { x: 1, y: 1, dir: "down", bob: 0, invincible: 0 };
+    let chaser = { x: 8, y: 8, mood: "💨", bob: 0 };
+    let roomItems = [];
+    let sparkles = [];
+    let confetti = [];
+    let danceTick = 0;
+    let chaserMoveAccumulator = 0;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let animationFrame = null;
+    let difficultyLevel = 3;
+
+    let audioCtx = null;
+    let musicEnabled = true;
+    let musicTimer = null;
+    let musicTempoMs = 340;
+    let musicPitchOffset = 0;
+    let musicStep = 0;
+
+    const rooms = [
+      { name:"Teddy Room", bgTop:"#fff6e6", bgBottom:"#ffe9f3", floorA:"#fff2cf", floorB:"#ffe7b8", wall:"#f5bfd7", decor:"teddy", target:6, startTime:32, items:["🧸","🎀","⭐","🎁","🧁","💖"], chaserEmoji:"💨" },
+      { name:"Cat Room", bgTop:"#f8f0ff", bgBottom:"#ffeef9", floorA:"#efe5ff", floorB:"#e7dcff", wall:"#d9c6ff", decor:"cat", target:6, startTime:28, items:["🐾","🐟","⭐","🎀","💎","🪩"], chaserEmoji:"😼" },
+      { name:"Dog Room", bgTop:"#eefcff", bgBottom:"#fff3e9", floorA:"#ddf7ff", floorB:"#d1eff8", wall:"#b8e7f7", decor:"dog", target:6, startTime:25, items:["🦴","🎾","⭐","🎁","💖","🧁"], chaserEmoji:"🐺" },
+      { name:"Bird Garden", bgTop:"#f1fff6", bgBottom:"#ecf8ff", floorA:"#dff8e5", floorB:"#d5f1dc", wall:"#bfe9c9", decor:"bird", target:6, startTime:22, items:["🪶","🌼","⭐","🍓","🎀","💎"], chaserEmoji:"🌀" },
+      { name:"Birthday Party", bgTop:"#fff0fa", bgBottom:"#eef5ff", floorA:"#ffe2f3", floorB:"#ffd3eb", wall:"#ffb7df", decor:"party", target:1, startTime:18, items:["🎂"], chaserEmoji:"🎈" }
+    ];
+
+    function fitCanvas() {
+      const vw = Math.min(window.innerWidth, document.documentElement.clientWidth);
+      const vh = window.innerHeight;
+      const chromeHeight = app.offsetHeight - canvas.clientHeight;
+      const available = Math.min(vw - 20, vh - chromeHeight - 12);
+      const size = Math.max(280, Math.min(420, Math.floor(available)));
+      canvas.style.width = size + "px";
+      canvas.style.height = size + "px";
+      canvas.width = 420;
+      canvas.height = 420;
+      W = canvas.width;
+      H = canvas.height;
+      tile = W / cols;
+    }
+
+    function getDifficultyLabel(level) {
+      return ({1:"Very Easy",2:"Easy",3:"Medium",4:"Hard",5:"Wild"})[level] || "Medium";
+    }
+
+    function updateDifficultyUI() {
+      difficultyText.textContent = `${difficultyLevel} / 5 - ${getDifficultyLabel(difficultyLevel)}`;
+    }
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    }
+
+    function tone(freq, duration = 0.16, type = "sine", volume = 0.05, when = 0) {
+      if (!audioCtx || !musicEnabled) return;
+      const now = audioCtx.currentTime + when;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(volume, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    }
+
+    function playCollectSound() {
+      tone(880 + musicPitchOffset, 0.08, "triangle", 0.05, 0);
+      tone(1175 + musicPitchOffset, 0.10, "triangle", 0.04, 0.04);
+      tone(1320 + musicPitchOffset, 0.12, "triangle", 0.03, 0.08);
+    }
+
+    function playCaughtSound() {
+      tone(220, 0.14, "square", 0.04, 0);
+      tone(185, 0.16, "square", 0.035, 0.07);
+    }
+
+    function playWarningSound() {
+      tone(980, 0.05, "square", 0.03, 0);
+    }
+
+    function playRoomClearSound() {
+      [523.25, 659.25, 783.99, 1046.5].forEach((n, i) => tone(n, 0.16, "triangle", 0.05, i * 0.06));
+    }
+
+    function restartMusicLoop() {
+      if (musicTimer) clearInterval(musicTimer);
+      if (!musicEnabled || !audioCtx) return;
+
+      const melody = [659.25,783.99,880.00,783.99,659.25,587.33,659.25,783.99,987.77,880.00,783.99,659.25,587.33,659.25,523.25,587.33];
+      musicTimer = setInterval(() => {
+        if (!gameStarted || paused || gameWon) return;
+        const note = melody[musicStep % melody.length] + musicPitchOffset;
+        const bass = [261.63,293.66,329.63,293.66][musicStep % 4];
+        tone(note, 0.15, "triangle", 0.038, 0);
+        tone(note / 2, 0.12, "sine", 0.018, 0.01);
+        if (musicStep % 2 === 0) tone(bass, 0.10, "sine", 0.015, 0);
+        if (collected >= 3 && musicStep % 4 === 1) tone(note * 1.25, 0.08, "square", 0.012, 0.02);
+        musicStep++;
+      }, musicTempoMs);
+    }
+
+    function updateDrama() {
+      const difficultyBoost = (difficultyLevel - 3) * 0.18;
+      const drama = Math.max(0.6, 1 + currentRoom * 0.10 + collected * 0.12 + difficultyBoost);
+      musicTempoMs = Math.max(105, 340 - currentRoom * 25 - collected * 28);
+      musicPitchOffset = Math.min(180, collected * 18 + currentRoom * 8);
+      paceEl.textContent = drama.toFixed(1) + "x";
+      restartMusicLoop();
+    }
+
+    function startMusic() { initAudio(); restartMusicLoop(); }
+    function stopMusic() { if (musicTimer) clearInterval(musicTimer); musicTimer = null; }
+
+    function playBirthdayEnding() {
+      if (!audioCtx || !musicEnabled) return;
+      stopMusic();
+      const seq = [
+        [392.00,0.28],[392.00,0.18],[440.00,0.40],[392.00,0.40],[523.25,0.40],[493.88,0.70],
+        [392.00,0.28],[392.00,0.18],[440.00,0.40],[392.00,0.40],[587.33,0.40],[523.25,0.70],
+        [392.00,0.28],[392.00,0.18],[783.99,0.40],[659.25,0.40],[523.25,0.40],[493.88,0.40],[440.00,0.70],
+        [698.46,0.28],[698.46,0.18],[659.25,0.40],[523.25,0.40],[587.33,0.40],[523.25,0.80]
+      ];
+      let t = 0;
+      for (const [note, dur] of seq) {
+        tone(note, dur, "triangle", 0.06, t);
+        tone(note / 2, dur * 0.9, "sine", 0.018, t);
+        t += dur;
+      }
+    }
+
+    function setMessage(title, text) {
+      messageBox.innerHTML = `<h2>${title}</h2><p>${text}</p>`;
+      overlay.style.display = "flex";
+    }
+    function hideMessage() { overlay.style.display = "none"; }
+
+    function updateUI() {
+      roomNameEl.textContent = rooms[currentRoom].name;
+      scoreEl.textContent = score;
+      collectedEl.textContent = `${collected} / ${rooms[currentRoom].target}`;
+      heartsEl.textContent = "❤".repeat(hearts) + "♡".repeat(3 - hearts);
+      timerEl.textContent = Math.ceil(roomTimeLeft);
+      if (roomTimeLeft <= 8) timerEl.classList.add("danger");
+      else timerEl.classList.remove("danger");
+    }
+
+    function buildRoom() {
+      const room = rooms[currentRoom];
+      roomItems = [];
+      collected = 0;
+      roomTimeMax = room.startTime;
+      roomTimeLeft = room.startTime;
+      player.x = 1; player.y = 1; player.invincible = 0;
+      chaser.x = 8; chaser.y = 8; chaser.mood = room.chaserEmoji;
+      chaserMoveAccumulator = 0;
+      musicStep = 0;
+
+      const used = new Set(["1,1", "8,8"]);
+      if (currentRoom < rooms.length - 1) {
+        while (roomItems.length < room.target) {
+          const x = Math.floor(Math.random() * 8) + 1;
+          const y = Math.floor(Math.random() * 8) + 1;
+          const key = `${x},${y}`;
+          if (!used.has(key)) {
+            used.add(key);
+            roomItems.push({ x, y, kind: room.items[roomItems.length % room.items.length], wobble: Math.random() * Math.PI * 2 });
+          }
+        }
+      } else {
+        roomItems.push({ x: 5, y: 5, kind: "🎂", wobble: 0 });
+      }
+      updateDrama();
+      updateUI();
+    }
+
+    function resetGame() {
+      paused = false; gameWon = false; currentRoom = 0; score = 0; hearts = 3;
+      sparkles = []; confetti = []; danceTick = 0; pulse = 0; dangerFlash = 0;
+      player = { x: 1, y: 1, dir: "down", bob: 0, invincible: 0 };
+      buildRoom();
+    }
+
+    function startGame() {
+      initAudio();
+      fitCanvas();
+      resetGame();
+      startMusic();
+      gameStarted = true;
+      lastTimestamp = performance.now();
+      hideMessage();
+      loop();
+    }
+
+    function togglePause() {
+      if (!gameStarted || gameWon) return;
+      paused = !paused;
+      if (paused) setMessage("Paused", "Tap Pause again to continue Megan's birthday dash.");
+      else { lastTimestamp = performance.now(); hideMessage(); }
+    }
+
+    function toggleMusic() {
+      musicEnabled = !musicEnabled;
+      musicBtn.textContent = `Music: ${musicEnabled ? "On" : "Off"}`;
+      if (musicEnabled) { initAudio(); if (!gameWon) restartMusicLoop(); }
+      else stopMusic();
+    }
+
+    function loseLife(reasonText) {
+      if (player.invincible > 0 || gameWon) return;
+      hearts -= 1;
+      dangerFlash = 0.9;
+      playCaughtSound();
+      sparkBurst(player.x * tile + tile / 2, player.y * tile + tile / 2, 16);
+      updateUI();
+
+      if (hearts <= 0) {
+        gameStarted = false;
+        stopMusic();
+        setMessage("Party Trouble!", `${reasonText} Tap Start to try again.`);
+        return;
+      }
+
+      setMessage("Oops!", `${reasonText} One heart lost. Try the room again.`);
+      buildRoom();
+      player.invincible = Math.max(40, 85 - difficultyLevel * 8);
+      setTimeout(() => {
+        if (gameStarted && !paused && !gameWon) hideMessage();
+      }, 900);
+    }
+
+    function nextRoom() {
+      if (currentRoom < rooms.length - 1) {
+        playRoomClearSound();
+        currentRoom++;
+        sparkBurst(W / 2, H / 2, 20);
+        buildRoom();
+        updateUI();
+
+        if (currentRoom === rooms.length - 1) {
+          setMessage("Final Room!", "Grab the birthday cake for Megan's birthday tune.");
+          setTimeout(() => {
+            if (gameStarted && !paused && !gameWon) hideMessage();
+          }, 1000);
+        }
+      }
+    }
+
+    function winGame() {
+      gameWon = true;
+      createConfetti();
+      setMessage("Happy 10th Birthday Megan!", "You did it! Pets, presents, sparkles and cake. Now everyone dances.");
+      playBirthdayEnding();
+    }
+
+    function movePlayer(dir) {
+      if (!gameStarted || paused || gameWon) return;
+      player.dir = dir;
+
+      let nx = player.x;
+      let ny = player.y;
+      if (dir === "up") ny--;
+      if (dir === "down") ny++;
+      if (dir === "left") nx--;
+      if (dir === "right") nx++;
+
+      if (nx < 1 || nx > 8 || ny < 1 || ny > 8) return;
+
+      player.x = nx;
+      player.y = ny;
+      player.bob += 0.9;
+      checkCollect();
+      checkCaught();
+    }
+
+    function checkCollect() {
+      for (let i = roomItems.length - 1; i >= 0; i--) {
+        const item = roomItems[i];
+        if (item.x === player.x && item.y === player.y) {
+          if (currentRoom < rooms.length - 1) {
+            roomItems.splice(i, 1);
+            collected++;
+            score += 10;
+            roomTimeLeft = Math.max(3, roomTimeLeft - 1.5);
+            playCollectSound();
+            sparkBurst(item.x * tile + tile / 2, item.y * tile + tile / 2, 12);
+            updateDrama();
+            updateUI();
+            if (collected >= rooms[currentRoom].target) nextRoom();
+          } else {
+            roomItems.splice(i, 1);
+            score += 50;
+            updateUI();
+            winGame();
+          }
+          break;
+        }
+      }
+    }
+
+    function isAdjacentToMonster() {
+      const dx = Math.abs(player.x - chaser.x);
+      const dy = Math.abs(player.y - chaser.y);
+      const manhattan = dx + dy;
+      if (difficultyLevel <= 3) return false;
+      if (difficultyLevel === 4) return manhattan === 1 && Math.random() < 0.18;
+      if (difficultyLevel === 5) return manhattan === 1 && Math.random() < 0.38;
+      return false;
+    }
+
+    function checkCaught() {
+      if (player.invincible > 0) return;
+      if ((player.x === chaser.x && player.y === chaser.y) || isAdjacentToMonster()) {
+        loseLife("The monster caught Megan.");
+      }
+    }
+
+    function updateChaser(deltaSeconds) {
+      if (!gameStarted || paused || gameWon) return;
+      if (currentRoom === rooms.length - 1) return;
+
+      const difficultySpeed = [0.70, 0.88, 1.0, 1.25, 1.55][difficultyLevel - 1];
+      const movesPerSecond = (1.5 + currentRoom * 0.4 + collected * 0.55) * difficultySpeed;
+      chaserMoveAccumulator += deltaSeconds * movesPerSecond;
+
+      while (chaserMoveAccumulator >= 1) {
+        chaserMoveAccumulator -= 1;
+        const dx = player.x - chaser.x;
+        const dy = player.y - chaser.y;
+        const smartChance = [0.45, 0.58, 0.70, 0.84, 0.96][difficultyLevel - 1];
+        let options = [];
+
+        if (Math.random() < smartChance) {
+          if (Math.abs(dx) >= Math.abs(dy)) {
+            if (dx !== 0) options.push({ x: chaser.x + Math.sign(dx), y: chaser.y });
+            if (dy !== 0) options.push({ x: chaser.x, y: chaser.y + Math.sign(dy) });
+          } else {
+            if (dy !== 0) options.push({ x: chaser.x, y: chaser.y + Math.sign(dy) });
+            if (dx !== 0) options.push({ x: chaser.x + Math.sign(dx), y: chaser.y });
+          }
+        }
+
+        options = options.concat([
+          { x: chaser.x + 1, y: chaser.y },
+          { x: chaser.x - 1, y: chaser.y },
+          { x: chaser.x, y: chaser.y + 1 },
+          { x: chaser.x, y: chaser.y - 1 }
+        ].sort(() => Math.random() - 0.5));
+
+        for (const opt of options) {
+          if (opt.x >= 1 && opt.x <= 8 && opt.y >= 1 && opt.y <= 8) {
+            chaser.x = opt.x;
+            chaser.y = opt.y;
+            break;
+          }
+        }
+        checkCaught();
+      }
+      chaser.bob += deltaSeconds * (6 + difficultyLevel);
+    }
+
+    function updateTimer(deltaSeconds) {
+      if (!gameStarted || paused || gameWon) return;
+      const oldWhole = Math.ceil(roomTimeLeft);
+      roomTimeLeft -= deltaSeconds;
+
+      if (roomTimeLeft <= 0) {
+        roomTimeLeft = 0;
+        updateUI();
+        loseLife("Time ran out.");
+        return;
+      }
+
+      const newWhole = Math.ceil(roomTimeLeft);
+      if (newWhole !== oldWhole && newWhole <= 8) playWarningSound();
+      updateUI();
+    }
+
+    function sparkBurst(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        sparkles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 3.2,
+          vy: (Math.random() - 0.5) * 3.2,
+          life: 34 + Math.random() * 14,
+          size: 2 + Math.random() * 4,
+          color: ["#ff6fb5", "#ffd76a", "#8fd8ff", "#8af0cb", "#c59cff"][Math.floor(Math.random() * 5)]
+        });
+      }
+    }
+
+    function createConfetti() {
+      confetti = [];
+      for (let i = 0; i < 120; i++) {
+        confetti.push({
+          x: Math.random() * W,
+          y: Math.random() * -H,
+          vy: 1 + Math.random() * 2.5,
+          vx: (Math.random() - 0.5) * 1.2,
+          size: 6 + Math.random() * 8,
+          rot: Math.random() * Math.PI * 2,
+          vr: (Math.random() - 0.5) * 0.12,
+          color: ["#ff6fb5","#ffd76a","#8fd8ff","#8af0cb","#c59cff","#ff9db5"][Math.floor(Math.random() * 6)]
+        });
+      }
+    }
+
+    function updateEffects(deltaSeconds) {
+      pulse += deltaSeconds * (2.0 + collected * 1.3 + currentRoom * 0.6 + difficultyLevel * 0.25);
+
+      sparkles.forEach(s => {
+        s.x += s.vx;
+        s.y += s.vy;
+        s.life -= 1;
+      });
+      sparkles = sparkles.filter(s => s.life > 0);
+
+      if (player.invincible > 0) player.invincible--;
+      if (dangerFlash > 0) dangerFlash = Math.max(0, dangerFlash - deltaSeconds * 1.8);
+
+      updateChaser(deltaSeconds);
+
+      if (gameWon) {
+        confetti.forEach(c => {
+          c.x += c.vx;
+          c.y += c.vy;
+          c.rot += c.vr;
+          if (c.y > H + 20) {
+            c.y = -20;
+            c.x = Math.random() * W;
+          }
+        });
+        danceTick += deltaSeconds * 5;
+      }
+    }
+
+    function drawBackground(room) {
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, room.bgTop);
+      grad.addColorStop(1, room.bgBottom);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const px = x * tile;
+          const py = y * tile;
+          if (x === 0 || y === 0 || x === cols - 1 || y === rows - 1) ctx.fillStyle = room.wall;
+          else ctx.fillStyle = (x + y) % 2 === 0 ? room.floorA : room.floorB;
+          roundRect(px + 1, py + 1, tile - 2, tile - 2, 10);
+          ctx.fill();
+        }
+      }
+
+      if (!gameWon && currentRoom < rooms.length - 1) {
+        const alpha = 0.06 + Math.max(0, Math.sin(pulse)) * 0.09 + dangerFlash * 0.16 + (roomTimeLeft <= 8 ? 0.07 : 0);
+        ctx.fillStyle = `rgba(255, 70, 110, ${alpha})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    function drawRoomDecor(room) {
+      if (room.decor === "teddy") {
+        drawEmoji("🧸", 55, 52, 28); drawEmoji("🎁", 365, 54, 26);
+      } else if (room.decor === "cat") {
+        drawEmoji("🐱", 55, 54, 28); drawEmoji("💎", 366, 52, 24);
+      } else if (room.decor === "dog") {
+        drawEmoji("🐶", 58, 54, 28); drawEmoji("🎾", 364, 52, 24);
+      } else if (room.decor === "bird") {
+        drawEmoji("🐦", 56, 54, 26); drawEmoji("🌸", 366, 52, 24);
+      } else if (room.decor === "party") {
+        drawEmoji("🎉", 56, 54, 26); drawEmoji("🪩", 364, 52, 24); drawBanner();
+      }
+    }
+
+    function drawBanner() {
+      ctx.fillStyle = "#ffffffcc";
+      roundRect(90, 18, 240, 34, 16);
+      ctx.fill();
+      ctx.fillStyle = "#d6539d";
+      ctx.font = "bold 16px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Happy Birthday Megan!", 210, 40);
+    }
+
+    function drawEmoji(emoji, x, y, size) {
+      ctx.font = `${size}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(emoji, x, y);
+    }
+
+    function drawItems() {
+      roomItems.forEach(item => {
+        const px = item.x * tile + tile / 2;
+        const py = item.y * tile + tile / 2 + Math.sin(performance.now() / 180 + item.wobble) * 4;
+        ctx.font = "24px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(item.kind, px, py + 8);
+      });
+    }
+
+    function drawPlayer() {
+      const px = player.x * tile + tile / 2;
+      const py = player.y * tile + tile / 2;
+      const bob = Math.sin(player.bob + performance.now() / 160) * 2;
+
+      ctx.fillStyle = "rgba(120, 90, 130, 0.15)";
+      ctx.beginPath();
+      ctx.ellipse(px, py + 12, 13, 7, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (player.invincible > 0 && Math.floor(player.invincible / 6) % 2 === 0) ctx.globalAlpha = 0.45;
+
+      ctx.fillStyle = "#ff8cc7";
+      ctx.beginPath(); ctx.arc(px, py + bob, 12, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = "#ffd7ea";
+      ctx.beginPath(); ctx.arc(px, py - 11 + bob, 11, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = "#8b7bff";
+      ctx.beginPath();
+      ctx.arc(px - 6, py - 19 + bob, 4.2, 0, Math.PI * 2);
+      ctx.arc(px + 1, py - 19 + bob, 4.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffd76a";
+      ctx.beginPath(); ctx.arc(px - 2.5, py - 19 + bob, 2.2, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = "#5b4268";
+      ctx.beginPath();
+      ctx.arc(px - 4, py - 12 + bob, 1.5, 0, Math.PI * 2);
+      ctx.arc(px + 4, py - 12 + bob, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = "#d6539d";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(px, py - 9 + bob, 4, 0.2, Math.PI - 0.2); ctx.stroke();
+
+      ctx.fillStyle = "#8fd8ff";
+      ctx.fillRect(px - 7, py + bob, 14, 10);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(px - 2, py + bob, 4, 10);
+
+      if (gameWon) {
+        const wiggle = Math.sin(danceTick * 4) * 6;
+        ctx.strokeStyle = "#ff8cc7";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(px - 8, py + bob - 2); ctx.lineTo(px - 16, py + bob - 8 - wiggle);
+        ctx.moveTo(px + 8, py + bob - 2); ctx.lineTo(px + 16, py + bob - 8 + wiggle);
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1;
+    }
+
+    function drawChaser() {
+      if (currentRoom === rooms.length - 1 || gameWon || !gameStarted) return;
+      const px = chaser.x * tile + tile / 2;
+      const py = chaser.y * tile + tile / 2 + Math.sin(chaser.bob + performance.now() / 110) * 3;
+
+      ctx.fillStyle = "rgba(96, 56, 125, 0.15)";
+      ctx.beginPath(); ctx.ellipse(px, py + 10, 14, 7, 0, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = "#c59cff";
+      ctx.beginPath(); ctx.arc(px, py, 13, 0, Math.PI * 2); ctx.fill();
+
+      ctx.font = "22px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(chaser.mood, px, py + 7);
+    }
+
+    function drawTimerBar() {
+      const x = 56, y = 388, w = 308, h = 16;
+      const ratio = Math.max(0, roomTimeLeft / roomTimeMax);
+
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      roundRect(x, y, w, h, 8); ctx.fill();
+
+      const color = ratio > 0.45 ? "#8af0cb" : ratio > 0.2 ? "#ffd76a" : "#ff6b8b";
+      ctx.fillStyle = color;
+      roundRect(x + 2, y + 2, Math.max(8, (w - 4) * ratio), h - 4, 7);
+      ctx.fill();
+    }
+
+    function drawPartyFriends() {
+      if (!gameWon) return;
+      const y1 = Math.sin(danceTick * 3) * 5;
+      const y2 = Math.sin(danceTick * 3 + 1.2) * 5;
+      const y3 = Math.sin(danceTick * 3 + 2.0) * 5;
+
+      drawEmoji("🧸", 120, 290 + y1, 34);
+      drawEmoji("🐱", 300, 290 + y2, 30);
+      drawEmoji("🐶", 115, 150 + y2, 30);
+      drawEmoji("🐦", 305, 150 + y3, 28);
+      drawEmoji("🪩", 210, 95, 28);
+
+      ctx.fillStyle = "#ffffffcc";
+      roundRect(90, 336, 240, 44, 18); ctx.fill();
+      ctx.fillStyle = "#d6539d";
+      ctx.font = "bold 18px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Happy 10th Birthday Megan!", 210, 364);
+    }
+
+    function drawSparkles() {
+      sparkles.forEach(s => {
+        ctx.globalAlpha = Math.max(0, s.life / 48);
+        ctx.fillStyle = s.color;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.size * (s.life / 48), 0, Math.PI * 2); ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function drawConfetti() {
+      if (!gameWon) return;
+      confetti.forEach(c => {
+        ctx.save();
+        ctx.translate(c.x, c.y);
+        ctx.rotate(c.rot);
+        ctx.fillStyle = c.color;
+        ctx.fillRect(-c.size / 2, -c.size / 3, c.size, c.size * 0.66);
+        ctx.restore();
+      });
+    }
+
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function draw() {
+      const room = rooms[currentRoom];
+      drawBackground(room);
+      drawRoomDecor(room);
+      drawItems();
+      drawChaser();
+      drawPlayer();
+      drawTimerBar();
+      drawPartyFriends();
+      drawSparkles();
+      drawConfetti();
+    }
+
+    function loop() {
+      cancelAnimationFrame(animationFrame);
+      function frame(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const deltaSeconds = Math.min(0.05, (timestamp - lastTimestamp) / 1000);
+        lastTimestamp = timestamp;
+
+        if (gameStarted && !paused) {
+          updateTimer(deltaSeconds);
+          updateEffects(deltaSeconds);
+          draw();
+        } else {
+          draw();
+        }
+        animationFrame = requestAnimationFrame(frame);
+      }
+      animationFrame = requestAnimationFrame(frame);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowUp") movePlayer("up");
+      if (e.key === "ArrowDown") movePlayer("down");
+      if (e.key === "ArrowLeft") movePlayer("left");
+      if (e.key === "ArrowRight") movePlayer("right");
+      if (e.key === " ") togglePause();
+    });
+
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", () => movePlayer(btn.dataset.dir));
+    });
+
+    [startBtn, pauseBtn, musicBtn, difficultySlider, ...document.querySelectorAll(".btn")].forEach(el => {
+      el.addEventListener("touchstart", e => e.stopPropagation(), { passive: true });
+      el.addEventListener("touchend", e => e.stopPropagation(), { passive: true });
+    });
+
+    startBtn.addEventListener("click", startGame);
+    pauseBtn.addEventListener("click", togglePause);
+    musicBtn.addEventListener("click", () => { initAudio(); toggleMusic(); });
+
+    difficultySlider.addEventListener("input", () => {
+      difficultyLevel = Number(difficultySlider.value);
+      updateDifficultyUI();
+      updateDrama();
+    });
+
+    canvas.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+    }, { passive: false });
+
+    canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+      if (Math.abs(dx) < 14 && Math.abs(dy) < 14) return;
+
+      if (Math.abs(dx) > Math.abs(dy)) movePlayer(dx > 0 ? "right" : "left");
+      else movePlayer(dy > 0 ? "down" : "up");
+    }, { passive: false });
+
+    window.addEventListener("resize", fitCanvas);
+    window.addEventListener("orientationchange", () => setTimeout(fitCanvas, 120));
+
+    updateDifficultyUI();
+    fitCanvas();
+    resetGame();
+    draw();
+  </script>
+</body>
+</html>
